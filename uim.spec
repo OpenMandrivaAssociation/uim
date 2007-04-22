@@ -1,5 +1,5 @@
 %define version   1.4.0
-%define release   %mkrel 2
+%define release   %mkrel 3
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -18,9 +18,6 @@
 %define gcroots_major 0
 %define libgcroots_orig libgcroots
 %define libgcroots %mklibname gcroots %gcroots_major
-
-# QTDIR is /usr/lib/qt3 for the time being
-%define qtdir %{_prefix}/lib/qt3
 
 Name:      uim
 Summary:   Uim is a multilingual input method library 
@@ -76,7 +73,7 @@ system tray, applet, candidate window for Uim library.
 Summary:   KDE helper for uim
 Group:     System/Internationalization
 Requires:  %{name} = %{version}
-Requires:  qt > 3.3.4-9mdk
+Requires:  qt3 > 3.3.4-9mdk
 Provides:  uim-applet = %{version}
 
 %description qt
@@ -87,7 +84,7 @@ system tray, applet, candidate window for Uim library.
 Summary:   A plugin for using UIM on qt-immodule
 Group:     System/Internationalization
 Requires:  %{name} = %{version}
-Requires:  qt > 3.3.4-9mdk
+Requires:  qt3 > 3.3.4-9mdk
 
 %description qtimmodule
 A plugin for using UIM on qt-immodule.
@@ -180,9 +177,9 @@ rm -f %{buildroot}%{_libdir}/gtk-2.0/*/immodules/*.{a,la}
 rm -rf %{buildroot}%{_datadir}/doc/sigscheme
 
 %if %qtimmodule
-mkdir -p %{buildroot}%{qtdir}/plugins/%{_lib}/inputmethods/
-mv %{buildroot}/%{qtdir}/plugins/inputmethods/*.so %{buildroot}%{qtdir}/plugins/%{_lib}/inputmethods/
-rm -rf %{buildroot}/%{qtdir}/plugins/inputmethods/
+mkdir -p %{buildroot}%{qt3plugins}/inputmethods/
+mv %{buildroot}/%{qt3dir}/plugins/inputmethods/*.so %{buildroot}%{qt3plugins}/inputmethods/
+rm -rf %{buildroot}/%{qt3dir}/plugins/inputmethods/
 %endif
 
 %find_lang %{name}
@@ -242,8 +239,8 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %files qtimmodule
 %defattr(-,root,root)
 %doc COPYING
-%dir %{_prefix}/lib/qt3/plugins/%{_lib}/inputmethods/
-%{_prefix}/lib/qt3/plugins/%{_lib}/inputmethods/*.so
+%dir %{qt3plugins}/inputmethods/
+%{qt3plugins}/inputmethods/*.so
 %endif
 
 %files base

@@ -1,5 +1,5 @@
-%define version   1.4.0
-%define release   %mkrel 3
+%define version   1.4.1
+%define release   %mkrel 1
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -275,7 +275,3 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %{_libdir}/kde3/uim_panelapplet.la
 %{_libdir}/pkgconfig/*.pc
 %{_libdir}/uim/plugin/libuim-*.la
-
-
-
-

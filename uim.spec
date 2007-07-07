@@ -1,5 +1,5 @@
 %define version   1.4.1
-%define release   %mkrel 1
+%define release   %mkrel 2
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -10,6 +10,7 @@
 %define uim_major 5
 %define libname_orig lib%{name}
 %define libname %mklibname %{name} %uim_major
+%define develname %mklibname -d %{name}
 
 %define custom_major 2
 %define libcustom_orig libuim-custom
@@ -25,7 +26,7 @@ Version:   %{version}
 Release:   %{release}
 Group:     System/Internationalization
 License:   GPL or BSD
-URL:       http://uim.freedesktop.org/wiki/
+URL:       http://code.google.com/p/uim/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 # latest snapshot
@@ -108,14 +109,15 @@ Conflicts:  %{mklibname uim 1}
 %description -n %{libname}
 UIM library.
 
-%package -n %{libname}-devel
+%package -n %{develname}
 Summary:    Headers of uim for development
 Group:      Development/C
 Requires:   %{libname} = %{version}
 Provides:   %{name}-devel = %{version}-%{release}
 Provides:   %{libname_orig}-devel = %{version}-%{release}
+Obsoletes:  %{libname}-devel
 
-%description -n %{libname}-devel
+%description -n %{develname}
 Headers of %{name} for development.
 
 %package -n %{libcustom}
@@ -265,7 +267,7 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %doc COPYING
 %{_libdir}/libuim-custom.so.%{custom_major}*
 
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr(-,root,root)
 %doc COPYING
 %{_includedir}/*

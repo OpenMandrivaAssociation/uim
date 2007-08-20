@@ -216,7 +216,7 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %{_datadir}/applications/*
 %{_datadir}/emacs/site-lisp/uim-el/*.el
 %{_datadir}/locale/*/LC_MESSAGES/uim-chardict-qt.mo
-%{_datadir}/man/man1/*
+%{_mandir}/man1/*
 %{_datadir}/uim/*.scm
 %{_datadir}/uim/helperdata/*
 %{_datadir}/uim/pixmaps/*

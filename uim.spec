@@ -1,5 +1,5 @@
 %define version   1.4.1
-%define release   %mkrel 2
+%define release   %mkrel 3
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -86,6 +86,7 @@ Summary:   A plugin for using UIM on qt-immodule
 Group:     System/Internationalization
 Requires:  %{name} = %{version}
 Requires:  qt3 > 3.3.4-9mdk
+Obsoletes: quiminputcontextplugin
 
 %description qtimmodule
 A plugin for using UIM on qt-immodule.

@@ -1,5 +1,5 @@
 %define version   1.4.1
-%define release   %mkrel 5
+%define release   %mkrel 6
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -186,6 +186,7 @@ rm -rf %{buildroot}/%{qt3dir}/plugins/inputmethods/
 %endif
 
 %find_lang %{name}
+%find_lang uim-chardict-qt
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -216,7 +217,6 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %{_bindir}/uim-xim
 %{_datadir}/applications/*
 %{_datadir}/emacs/site-lisp/uim-el/*.el
-%{_datadir}/locale/*/LC_MESSAGES/uim-chardict-qt.mo
 %{_mandir}/man1/*
 %{_datadir}/uim/*.scm
 %{_datadir}/uim/helperdata/*
@@ -230,7 +230,7 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %{_libdir}/uim-candwin-gtk
 %{_libdir}/gtk-2.0/*/immodules/*.so
 
-%files qt
+%files qt -f uim-chardict-qt.lang
 %defattr(-,root,root)
 %doc COPYING
 %{_bindir}/uim-*-qt*

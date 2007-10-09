@@ -122,7 +122,7 @@ Obsoletes:  %{libname}-devel
 Headers of %{name} for development.
 
 %package -n %{libcustom}
-Summary:    Custom library for UIM.
+Summary:    Custom library for UIM
 Group:      System/Internationalization
 Provides:   %{libcustom_orig} = %{version}-%{release}
 Conflicts:  %{mklibname uim 1}
@@ -131,7 +131,7 @@ Conflicts:  %{mklibname uim 1}
 Custom library for UIM.
 
 %package -n %{libgcroots}
-Summary:    Gcroots library for UIM.
+Summary:    Gcroots library for UIM
 Group:      System/Internationalization
 Provides:   %{libgcroots_orig} = %{version}-%{release}
 Conflicts:  %{mklibname uim 1}

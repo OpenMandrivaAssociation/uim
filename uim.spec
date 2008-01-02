@@ -27,6 +27,7 @@ Release:   %{release}
 Group:     System/Internationalization
 License:   GPL or BSD
 URL:       http://code.google.com/p/uim/
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 # latest snapshot
 # Source0:   http://freedesktop.org/~tkng/uim-trunk.tar.bz2

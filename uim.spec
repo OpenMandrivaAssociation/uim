@@ -21,7 +21,7 @@
 %define libgcroots %mklibname gcroots %gcroots_major
 
 Name:      uim
-Summary:   Uim is a multilingual input method library 
+Summary:   Multilingual input method library 
 Version:   %{version}
 Release:   %{release}
 Group:     System/Internationalization
@@ -82,7 +82,7 @@ KDE helper for uim. It contains some apps like toolbar,
 system tray, applet, candidate window for Uim library.
 
 %package   qtimmodule
-Summary:   A plugin for using UIM on qt-immodule
+Summary:   Plugin for using UIM on qt-immodule
 Group:     System/Internationalization
 Requires:  %{name} = %{version}
 Requires:  qt3 > 3.3.4-9mdk

@@ -1,5 +1,5 @@
-%define version   1.4.1
-%define release   %mkrel 7
+%define version   1.4.2
+%define release   %mkrel 1
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -30,8 +30,7 @@ URL:       http://code.google.com/p/uim/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 # latest snapshot
-# Source0:   http://freedesktop.org/~tkng/uim-trunk.tar.bz2
-Source0:   http://uim.freedesktop.org/releases/%{name}-%{version}.tar.bz2
+Source0:   http://uim.googlecode.com/files/%name-%version.tar.bz2
 
 Requires:        %{libname} = %{version}
 Requires:        uim-gtk

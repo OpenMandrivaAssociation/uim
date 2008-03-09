@@ -153,7 +153,7 @@ testing experimental ideas.
 # (gb) don't bother with making a proper patch at this time
 perl -pi -e '/QTLIBDIR=.+\/lib/ and s,/lib,/%{_lib},' configure
 
-%configure \
+%configure2_5x \
    --with-m17nlib \
    --without-canna \
    --without-prime \

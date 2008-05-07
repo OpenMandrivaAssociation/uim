@@ -1,4 +1,4 @@
-%define version   1.4.2
+%define version   1.5.0
 %define release   %mkrel 1
 
 %define anthy_version      6620
@@ -7,7 +7,7 @@
 %define qtimmodule 1
 %{?_with_qtimmodule: %{expand: %%global qtimmodule 1}}
 
-%define uim_major 5
+%define uim_major 6
 %define libname_orig lib%{name}
 %define libname %mklibname %{name} %uim_major
 %define develname %mklibname -d %{name}
@@ -19,6 +19,9 @@
 %define gcroots_major 0
 %define libgcroots_orig libgcroots
 %define libgcroots %mklibname gcroots %gcroots_major
+
+%define scm_major 0
+%define libuimscm %mklibname uim-scm %scm_major
 
 Name:      uim
 Summary:   Multilingual input method library 
@@ -129,6 +132,13 @@ Conflicts:  %{mklibname uim 1}
 %description -n %{libcustom}
 Custom library for UIM.
 
+%package -n %{libuimscm}
+Summary:    uim-scm library for UIM
+Group:      System/Internationalization
+
+%description -n %{libuimscm}
+uim-scm library for UIM.
+
 %package -n %{libgcroots}
 Summary:    Gcroots library for UIM
 Group:      System/Internationalization
@@ -214,10 +224,12 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %{_bindir}/uim-module-manager
 %{_bindir}/uim-sh
 %{_bindir}/uim-xim
+%{_bindir}/uim-m17nlib-relink-icons
 %{_datadir}/applications/*
 %{_datadir}/emacs/site-lisp/uim-el/*.el
 %{_mandir}/man1/*
 %{_datadir}/uim/*.scm
+%{_datadir}/uim/lib/*.scm
 %{_datadir}/uim/helperdata/*
 %{_datadir}/uim/pixmaps/*
 
@@ -233,8 +245,8 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %defattr(-,root,root)
 %doc COPYING
 %{_bindir}/uim-*-qt*
-%{_datadir}/apps/kicker/applets/uimapplet.desktop
-%{_libdir}/kde3/uim_panelapplet.so
+%{_kde3_datadir}/apps/kicker/applets/uimapplet.desktop
+%{_kde3_libdir}/kde3/uim_panelapplet.*
 %{_libdir}/uim-candwin-qt
 
 %if %qtimmodule
@@ -254,26 +266,25 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 
 %files -n %{libname}
 %defattr(-,root,root)
-%doc COPYING
 %{_libdir}/libuim.so.%{uim_major}*
+
+%files -n %{libuimscm}
+%defattr(-,root,root)
+%{_libdir}/libuim-scm.so.%{scm_major}*
 
 %files -n %{libgcroots}
 %defattr(-,root,root)
-%doc COPYING
 %{_libdir}/libgcroots.so.%{gcroots_major}*
 
 %files -n %{libcustom}
 %defattr(-,root,root)
-%doc COPYING
 %{_libdir}/libuim-custom.so.%{custom_major}*
 
 %files -n %{develname}
 %defattr(-,root,root)
-%doc COPYING
 %{_includedir}/*
 %{_libdir}/lib*.so
 %{_libdir}/lib*.a
 %{_libdir}/lib*.la
-%{_libdir}/kde3/uim_panelapplet.la
 %{_libdir}/pkgconfig/*.pc
 %{_libdir}/uim/plugin/libuim-*.la

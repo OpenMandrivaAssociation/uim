@@ -1,5 +1,5 @@
 %define version   1.5.0
-%define release   %mkrel 1
+%define release   %mkrel 2
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -106,7 +106,6 @@ Misc files needed by UIM library.
 Summary:    UIM library
 Group:      System/Internationalization
 Provides:   %{libname_orig} = %{version}-%{release}
-Requires:   uim-base
 Conflicts:  %{mklibname uim 1}
 
 %description -n %{libname}
@@ -116,9 +115,12 @@ UIM library.
 Summary:    Headers of uim for development
 Group:      Development/C
 Requires:   %{libname} = %{version}
+Requires:   %{libcustom} = %{version}
+Requires:   %{libuimscm} = %{version}
+Requires:   %{libgcroots} = %{version}
 Provides:   %{name}-devel = %{version}-%{release}
 Provides:   %{libname_orig}-devel = %{version}-%{release}
-Obsoletes:  %{libname}-devel
+Obsoletes:  %mklibname -d uim 5
 
 %description -n %{develname}
 Headers of %{name} for development.

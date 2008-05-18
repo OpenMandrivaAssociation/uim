@@ -21,7 +21,6 @@
 %define libgcroots %mklibname gcroots %gcroots_major
 
 %define scm_major 0
-%define libscm_orig libuim-scm
 %define libscm %mklibname uim-scm %scm_major
 
 Name:      uim
@@ -50,7 +49,7 @@ BuildRequires:   gnome-panel-devel
 BuildRequires:   m17n-lib-devel >= %{m17n_lib_version}
 BuildRequires:   libanthy-devel >= %{anthy_version}
 BuildRequires:   intltool
-BuildRequires:   libncurses-devel, automake1.8
+BuildRequires:   libncurses-devel, automake
 BuildRequires:   kdelibs-devel
 BuildRequires:   qt4-devel
 
@@ -158,7 +157,6 @@ testing experimental ideas.
 %package -n %{libscm}
 Summary:    Scm library for UIM.
 Group:      System/Internationalization
-Provides:   %{libscm_orig} = %{version}-%{release}
 
 %description -n %{libscm}
 Scm library for UIM.
@@ -167,7 +165,7 @@ Scm library for UIM.
 %setup -q
 
 %build
-export QMAKE4=%{_libdir}/qt4/bin/qmake
+export QMAKE4=%{qt4bin}/qmake
 export DESTDIR=$RPM_BUILD_ROOT
 [[ ! -x configure ]] && ./autogen.sh
 cd sigscheme
@@ -276,7 +274,7 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 
 %files qt4immodule
 %doc COPYING
-%{_libdir}/qt4/plugins/lib/inputmethods/*.so
+%{qt4plugins}/inputmethods/*.so
 
 %files base
 %defattr(-,root,root)

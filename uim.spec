@@ -1,5 +1,5 @@
 %define version   1.5.1
-%define release   %mkrel 1
+%define release   %mkrel 2
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -21,7 +21,8 @@
 %define libgcroots %mklibname gcroots %gcroots_major
 
 %define scm_major 0
-%define libuimscm %mklibname uim-scm %scm_major
+%define libscm_orig libuim-scm
+%define libscm %mklibname uim-scm %scm_major
 
 Name:      uim
 Summary:   Multilingual input method library 
@@ -31,10 +32,7 @@ Group:     System/Internationalization
 License:   GPL or BSD
 URL:       http://code.google.com/p/uim/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-
-# latest snapshot
 Source0:   http://uim.googlecode.com/files/%name-%version.tar.bz2
-
 Requires:        %{libname} = %{version}
 Requires:        uim-gtk
 Requires:        anthy >= %{anthy_version}
@@ -54,6 +52,7 @@ BuildRequires:   libanthy-devel >= %{anthy_version}
 BuildRequires:   intltool
 BuildRequires:   libncurses-devel, automake1.8
 BuildRequires:   kdelibs-devel
+BuildRequires:   qt4-devel
 
 %description
 Uim is a multilingual input method library. Uim's project goal is 
@@ -93,6 +92,15 @@ Obsoletes: quiminputcontextplugin
 %description qtimmodule
 A plugin for using UIM on qt-immodule.
 
+%package   qt4immodule
+Summary:   A plugin for using UIM on qt4-immodule
+Group:     System/Internationalization
+Requires:  %{name} = %{version}
+Requires:  qt4-common
+
+%description qt4immodule
+A plugin for using UIM on qt4-immodule.
+
 %package    base
 Summary:    Misc files needed by UIM library
 Group:      System/Internationalization
@@ -106,6 +114,7 @@ Misc files needed by UIM library.
 Summary:    UIM library
 Group:      System/Internationalization
 Provides:   %{libname_orig} = %{version}-%{release}
+Requires:   uim-base
 Conflicts:  %{mklibname uim 1}
 
 %description -n %{libname}
@@ -115,9 +124,6 @@ UIM library.
 Summary:    Headers of uim for development
 Group:      Development/C
 Requires:   %{libname} = %{version}
-Requires:   %{libcustom} = %{version}
-Requires:   %{libuimscm} = %{version}
-Requires:   %{libgcroots} = %{version}
 Provides:   %{name}-devel = %{version}-%{release}
 Provides:   %{libname_orig}-devel = %{version}-%{release}
 Obsoletes:  %mklibname -d uim 5
@@ -134,13 +140,6 @@ Conflicts:  %{mklibname uim 1}
 %description -n %{libcustom}
 Custom library for UIM.
 
-%package -n %{libuimscm}
-Summary:    uim-scm library for UIM
-Group:      System/Internationalization
-
-%description -n %{libuimscm}
-uim-scm library for UIM.
-
 %package -n %{libgcroots}
 Summary:    Gcroots library for UIM
 Group:      System/Internationalization
@@ -156,11 +155,26 @@ With this library, one can easily write his own garbage collector for
 small footprint, some application-specific optimizations, just learning or
 testing experimental ideas.
 
+%package -n %{libscm}
+Summary:    Scm library for UIM.
+Group:      System/Internationalization
+Provides:   %{libscm_orig} = %{version}-%{release}
+
+%description -n %{libscm}
+Scm library for UIM.
+
 %prep
 %setup -q
 
 %build
+export QMAKE4=%{_libdir}/qt4/bin/qmake
+export DESTDIR=$RPM_BUILD_ROOT
 [[ ! -x configure ]] && ./autogen.sh
+cd sigscheme
+[[ ! -x configure ]] && ./autogen.sh
+cd libgcroots
+[[ ! -x configure ]] && ./autogen.sh
+cd ../..
 
 # (gb) don't bother with making a proper patch at this time
 perl -pi -e '/QTLIBDIR=.+\/lib/ and s,/lib,/%{_lib},' configure
@@ -171,6 +185,7 @@ perl -pi -e '/QTLIBDIR=.+\/lib/ and s,/lib,/%{_lib},' configure
    --without-prime \
    --without-scim \
    --without-eb \
+   --with-qt4-immodule \
 %if %qtimmodule
    --with-qt-immodule \
 %endif
@@ -184,8 +199,9 @@ perl -pi -e '/QTLIBDIR=.+\/lib/ and s,/lib,/%{_lib},' configure
 rm -rf $RPM_BUILD_ROOT
 %makeinstall_std
 
-# remove unnecessary devel files
+# remove unnecessary files
 rm -f %{buildroot}%{_libdir}/gtk-2.0/*/immodules/*.{a,la}
+rm -f %{buildroot}%{_bindir}/uim-m17nlib-relink-icons
 
 # remove docs for sigscheme (they should be installed by %doc)
 rm -rf %{buildroot}%{_datadir}/doc/sigscheme
@@ -226,13 +242,12 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %{_bindir}/uim-module-manager
 %{_bindir}/uim-sh
 %{_bindir}/uim-xim
-%{_bindir}/uim-m17nlib-relink-icons
 %{_datadir}/applications/*
 %{_datadir}/emacs/site-lisp/uim-el/*.el
 %{_mandir}/man1/*
 %{_datadir}/uim/*.scm
-%{_datadir}/uim/lib/*.scm
 %{_datadir}/uim/helperdata/*
+%{_datadir}/uim/lib/*.scm
 %{_datadir}/uim/pixmaps/*
 
 %files gtk
@@ -259,6 +274,10 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %{qt3plugins}/inputmethods/*.so
 %endif
 
+%files qt4immodule
+%doc COPYING
+%{_libdir}/qt4/plugins/lib/inputmethods/*.so
+
 %files base
 %defattr(-,root,root)
 %{_libdir}/uim-helper-server
@@ -268,22 +287,27 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 
 %files -n %{libname}
 %defattr(-,root,root)
+%doc COPYING
 %{_libdir}/libuim.so.%{uim_major}*
-
-%files -n %{libuimscm}
-%defattr(-,root,root)
-%{_libdir}/libuim-scm.so.%{scm_major}*
 
 %files -n %{libgcroots}
 %defattr(-,root,root)
+%doc COPYING
 %{_libdir}/libgcroots.so.%{gcroots_major}*
 
 %files -n %{libcustom}
 %defattr(-,root,root)
+%doc COPYING
 %{_libdir}/libuim-custom.so.%{custom_major}*
+
+%files -n %{libscm}
+%defattr(-,root,root)
+%doc COPYING
+%{_libdir}/libuim-scm.so.%{scm_major}*
 
 %files -n %{develname}
 %defattr(-,root,root)
+%doc COPYING
 %{_includedir}/*
 %{_libdir}/lib*.so
 %{_libdir}/lib*.a

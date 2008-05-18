@@ -155,7 +155,7 @@ small footprint, some application-specific optimizations, just learning or
 testing experimental ideas.
 
 %package -n %{libscm}
-Summary:    Scm library for UIM.
+Summary:    Scm library for UIM
 Group:      System/Internationalization
 
 %description -n %{libscm}

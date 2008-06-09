@@ -223,12 +223,20 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %postun gtk
 gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 
+%if %mdkversion < 200900
 %post qtimmodule -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %postun qtimmodule -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{libname} -p /sbin/ldconfig
+%endif
 
 
 %files -f %{name}.lang

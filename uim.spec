@@ -204,12 +204,6 @@ rm -f %{buildroot}%{_bindir}/uim-m17nlib-relink-icons
 # remove docs for sigscheme (they should be installed by %doc)
 rm -rf %{buildroot}%{_datadir}/doc/sigscheme
 
-%if %qtimmodule
-mkdir -p %{buildroot}%{qt3plugins}/inputmethods/
-mv %{buildroot}/%{qt3dir}/plugins/inputmethods/*.so %{buildroot}%{qt3plugins}/inputmethods/
-rm -rf %{buildroot}/%{qt3dir}/plugins/inputmethods/
-%endif
-
 %find_lang %{name}
 %find_lang uim-chardict-qt
 

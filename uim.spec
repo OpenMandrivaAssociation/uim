@@ -47,7 +47,7 @@ BuildRequires:   gtk+2-devel >= 2.4.0
 BuildRequires:   libgnome2-devel
 BuildRequires:   gnome-panel-devel
 BuildRequires:   m17n-lib-devel >= %{m17n_lib_version}
-BuildRequires:   libanthy-devel >= %{anthy_version}
+BuildRequires:   anthy-devel >= %{anthy_version}
 BuildRequires:   intltool
 BuildRequires:   libncurses-devel, automake
 BuildRequires:   kdelibs-devel

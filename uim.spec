@@ -201,6 +201,14 @@ rm -rf $RPM_BUILD_ROOT
 rm -f %{buildroot}%{_libdir}/gtk-2.0/*/immodules/*.{a,la}
 rm -f %{buildroot}%{_bindir}/uim-m17nlib-relink-icons
 
+%if %qtimmodule
+mkdir -p %{buildroot}%{qt3plugins}/inputmethods/
+%if "%{qt3dir}/plugins/inputmethods" != "%{qt3plugins}/inputmethods"
+  mv %{buildroot}/%{qt3dir}/plugins/inputmethods/*.so %{buildroot}%{qt3plugins}/inputmethods/
+  rm -rf %{buildroot}/%{qt3dir}/plugins/inputmethods/
+%endif
+%endif
+
 # remove docs for sigscheme (they should be installed by %doc)
 rm -rf %{buildroot}%{_datadir}/doc/sigscheme
 

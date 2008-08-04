@@ -32,6 +32,7 @@ License:   GPL or BSD
 URL:       http://code.google.com/p/uim/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source0:   http://uim.googlecode.com/files/%name-%version.tar.bz2
+Patch0: uim-1.5.2-adopt-to-qt3-location.patch
 Requires:        %{libname} = %{version}
 Requires:        uim-gtk
 Requires:        anthy >= %{anthy_version}
@@ -163,20 +164,11 @@ Scm library for UIM.
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
 export QMAKE4=%{qt4bin}/qmake
 export DESTDIR=$RPM_BUILD_ROOT
-[[ ! -x configure ]] && ./autogen.sh
-cd sigscheme
-[[ ! -x configure ]] && ./autogen.sh
-cd libgcroots
-[[ ! -x configure ]] && ./autogen.sh
-cd ../..
-
-# (gb) don't bother with making a proper patch at this time
-perl -pi -e '/QTLIBDIR=.+\/lib/ and s,/lib,/%{_lib},' configure
-
 %configure2_5x \
    --with-m17nlib \
    --without-canna \
@@ -202,11 +194,7 @@ rm -f %{buildroot}%{_libdir}/gtk-2.0/*/immodules/*.{a,la}
 rm -f %{buildroot}%{_bindir}/uim-m17nlib-relink-icons
 
 %if %qtimmodule
-mkdir -p %{buildroot}%{qt3plugins}/inputmethods/
-%if "%{qt3dir}/plugins/inputmethods" != "%{qt3plugins}/inputmethods"
-  mv %{buildroot}/%{qt3dir}/plugins/inputmethods/*.so %{buildroot}%{qt3plugins}/inputmethods/
-%endif
-rm -rf %{buildroot}/%{qt3dir}/plugins/inputmethods/*.la
+rm -f %{buildroot}%{qt3plugins}/inputmethods/*.la
 %endif
 
 # remove docs for sigscheme (they should be installed by %doc)

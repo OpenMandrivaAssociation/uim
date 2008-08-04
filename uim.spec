@@ -1,5 +1,5 @@
-%define version   1.5.1
-%define release   %mkrel 2
+%define version   1.5.2
+%define release   %mkrel 1
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4

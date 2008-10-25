@@ -1,4 +1,4 @@
-%define version   1.5.3
+%define version   1.5.4
 %define release   %mkrel 1
 
 %define anthy_version      6620

@@ -1,5 +1,5 @@
 %define version   1.5.4
-%define release   %mkrel 1
+%define release   %mkrel 2
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -29,6 +29,7 @@ License:   GPL or BSD
 URL:       http://code.google.com/p/uim/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source0:   http://uim.googlecode.com/files/%name-%version.tar.bz2
+Patch0:    uim-1.5.4-pkgconfig-qt3.patch
 Requires:        %{libname} = %{version}
 Requires:        uim-gtk
 Requires:        anthy >= %{anthy_version}
@@ -48,11 +49,12 @@ BuildRequires:   anthy-devel >= %{anthy_version}
 BuildRequires:   intltool
 BuildRequires:   libncurses-devel, automake
 BuildRequires:   qt4-devel
+BuildRequires:   kdelibs-devel
+BuildRequires:	 ed intltool
 
 %description
 Uim is a multilingual input method library. Uim's project goal is 
 to provide secure and useful input method for all languages.
-
 
 %package   gtk
 Summary:   GNOME helper for uim
@@ -65,6 +67,27 @@ Provides:  uim-applet = %{version}
 %description gtk
 GNOME helper for uim. It contains some apps like toolbar, 
 system tray, applet, candidate window for Uim library.
+
+%package   qt
+Summary:   KDE helper for uim
+Group:     System/Internationalization
+Requires:  %{name} = %{version}
+Requires:  qt3 > 3.3.4-9mdk
+Provides:  uim-applet = %{version}
+
+%description qt
+KDE helper for uim. It contains some apps like toolbar,
+system tray, applet, candidate window for Uim library.
+
+%package   qtimmodule
+Summary:   Plugin for using UIM on qt-immodule
+Group:     System/Internationalization
+Requires:  %{name} = %{version}
+Requires:  qt3 > 3.3.4-9mdk
+Obsoletes: quiminputcontextplugin
+
+%description qtimmodule
+A plugin for using UIM on qt-immodule.
 
 %package   qt4immodule
 Summary:   A plugin for using UIM on qt4-immodule
@@ -138,8 +161,10 @@ Scm library for UIM.
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
+./autogen.sh
 export QMAKE4=%{qt4bin}/qmake
 export DESTDIR=$RPM_BUILD_ROOT
 %configure2_5x \
@@ -148,6 +173,8 @@ export DESTDIR=$RPM_BUILD_ROOT
    --without-prime \
    --without-scim \
    --without-eb \
+   --with-qt \
+   --with-qt-immodule \
    --with-qt4-immodule \
    --enable-dict \
    --disable-warnings-into-error
@@ -160,6 +187,7 @@ rm -rf $RPM_BUILD_ROOT
 
 # remove unnecessary files
 rm -f %{buildroot}%{_libdir}/gtk-2.0/*/immodules/*.{a,la}
+rm -f %{buildroot}%{qt3plugins}/inputmethods/*.la
 rm -f %{buildroot}%{_bindir}/uim-m17nlib-relink-icons
 
 # remove docs for sigscheme (they should be installed by %doc)
@@ -180,9 +208,9 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
 %postun -n %{libname} -p /sbin/ldconfig
+%post qtimmodule -p /sbin/ldconfig
+%postun qtimmodule -p /sbin/ldconfig
 %endif
 
 
@@ -210,6 +238,20 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %{_bindir}/uim-input-pad-ja
 %{_libdir}/uim-candwin-gtk
 %{_libdir}/gtk-2.0/*/immodules/*.so
+
+%files qt -f uim-chardict-qt.lang
+%defattr(-,root,root)
+%doc COPYING
+%{_bindir}/uim-*-qt*
+%{_kde3_datadir}/apps/kicker/applets/uimapplet.desktop
+%{_kde3_libdir}/kde3/uim_panelapplet.*
+%{_libdir}/uim-candwin-qt
+
+%files qtimmodule
+%defattr(-,root,root)
+%doc COPYING
+%dir %{qt3plugins}/inputmethods/
+%{qt3plugins}/inputmethods/*.so
 
 %files qt4immodule
 %doc COPYING

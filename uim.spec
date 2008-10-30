@@ -25,7 +25,7 @@ Summary:   Multilingual input method library
 Version:   %{version}
 Release:   %{release}
 Group:     System/Internationalization
-License:   GPL or BSD
+License:   BSD
 URL:       http://code.google.com/p/uim/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source0:   http://uim.googlecode.com/files/%name-%version.tar.bz2

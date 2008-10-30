@@ -25,7 +25,11 @@ Summary:   Multilingual input method library
 Version:   %{version}
 Release:   %{release}
 Group:     System/Internationalization
-License:   BSD
+# uim itself is licensed under BSD
+# scm/py.scm, helper/eggtrayicon.[ch], qt/pref-kseparator.{cpp,h}
+#   and qt/chardict/chardict-kseparator.{cpp,h} is licensed under LGPLv2+
+# pixmaps/*.{svg,png} is licensed under BSD or LGPLv2
+License:   BSD and LGPLv2+ and (BSD or LGPLv2)
 URL:       http://code.google.com/p/uim/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source0:   http://uim.googlecode.com/files/%name-%version.tar.bz2

@@ -1,5 +1,5 @@
-%define version   1.5.4
-%define release   %mkrel 3
+%define version   1.5.5
+%define release   %mkrel 1
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -34,6 +34,8 @@ URL:       http://code.google.com/p/uim/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source0:   http://uim.googlecode.com/files/%name-%version.tar.bz2
 Patch0:    uim-1.5.4-pkgconfig-qt3.patch
+Patch1:    uim-1.5.5-fix-str-fmt.patch
+Patch2:    uim-1.5.5-linkage.patch
 Requires:        %{libname} = %{version}
 Requires:        uim-gtk
 Requires:        anthy >= %{anthy_version}
@@ -45,7 +47,7 @@ Conflicts:       gtk+2.0 < 2.4.4-2mdk
 Obsoletes:       uim-anthy, uim-m17nlib, uim-prime, uim-skk
 Provides:        uim-anthy, uim-m17nlib, uim-prime, uim-skk
 BuildRequires:   gtk+2-devel >= 2.4.0
-BuildRequires:   libgnome2-devel
+BuildRequires:   libgnome2-devel gnomeui2-devel
 BuildRequires:   gnome-panel-devel
 BuildRequires:   m17n-lib-devel >= %{m17n_lib_version}
 BuildRequires:   m17n-db
@@ -166,6 +168,8 @@ Scm library for UIM.
 %prep
 %setup -q
 %patch0 -p0
+%patch1 -p0
+%patch2 -p0
 
 %build
 ./autogen.sh

@@ -1,5 +1,5 @@
 %define version   1.5.5
-%define release   %mkrel 1
+%define release   %mkrel 2
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -19,6 +19,9 @@
 
 %define scm_major 0
 %define libscm %mklibname uim-scm %scm_major
+
+%define with_qt3 0
+%{?_with_qt3: %{expand: %%global with_qt3 1}}
 
 Name:      uim
 Summary:   Multilingual input method library 
@@ -55,7 +58,6 @@ BuildRequires:   anthy-devel >= %{anthy_version}
 BuildRequires:   intltool
 BuildRequires:   libncurses-devel, automake
 BuildRequires:   qt4-devel
-BuildRequires:   kdelibs-devel
 BuildRequires:	 ed intltool
 
 %description
@@ -74,11 +76,14 @@ Provides:  uim-applet = %{version}
 GNOME helper for uim. It contains some apps like toolbar, 
 system tray, applet, candidate window for Uim library.
 
+%if %{with_qt3}
+
 %package   qt
 Summary:   KDE helper for uim
 Group:     System/Internationalization
 Requires:  %{name} = %{version}
 Requires:  qt3 > 3.3.4-9mdk
+BuildRequires:   kdelibs-devel
 Provides:  uim-applet = %{version}
 
 %description qt
@@ -94,6 +99,8 @@ Obsoletes: quiminputcontextplugin
 
 %description qtimmodule
 A plugin for using UIM on qt-immodule.
+
+%endif
 
 %package   qt4immodule
 Summary:   A plugin for using UIM on qt4-immodule
@@ -181,8 +188,10 @@ export DESTDIR=$RPM_BUILD_ROOT
    --without-prime \
    --without-scim \
    --without-eb \
+%if %{with_qt3}
    --with-qt \
    --with-qt-immodule \
+%endif
    --with-qt4-immodule \
    --enable-dict \
    --disable-warnings-into-error
@@ -214,12 +223,6 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %postun gtk
 gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%postun -n %{libname} -p /sbin/ldconfig
-%post qtimmodule -p /sbin/ldconfig
-%postun qtimmodule -p /sbin/ldconfig
-%endif
 
 
 %files -f %{name}.lang
@@ -247,6 +250,7 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %{_libdir}/uim-candwin-gtk
 %{_libdir}/gtk-2.0/*/immodules/*.so
 
+%if %{with_qt3}
 %files qt -f uim-chardict-qt.lang
 %defattr(-,root,root)
 %doc COPYING
@@ -260,6 +264,7 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %doc COPYING
 %dir %{qt3plugins}/inputmethods/
 %{qt3plugins}/inputmethods/*.so
+%endif
 
 %files qt4immodule
 %doc COPYING

@@ -1,5 +1,5 @@
 %define version   1.5.5
-%define release   %mkrel 2
+%define release   %mkrel 2.svn5782.1
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -58,7 +58,8 @@ BuildRequires:   anthy-devel >= %{anthy_version}
 BuildRequires:   intltool
 BuildRequires:   libncurses-devel, automake
 BuildRequires:   qt4-devel
-BuildRequires:	 ed intltool
+BuildRequires:	 ed
+BuildRequires:	 libtool
 
 %description
 Uim is a multilingual input method library. Uim's project goal is 
@@ -77,13 +78,12 @@ GNOME helper for uim. It contains some apps like toolbar,
 system tray, applet, candidate window for Uim library.
 
 %if %{with_qt3}
-
 %package   qt
 Summary:   KDE helper for uim
 Group:     System/Internationalization
 Requires:  %{name} = %{version}
 Requires:  qt3 > 3.3.4-9mdk
-BuildRequires:   kdelibs-devel
+BuildRequires: qt3-devel
 Provides:  uim-applet = %{version}
 
 %description qt
@@ -99,7 +99,6 @@ Obsoletes: quiminputcontextplugin
 
 %description qtimmodule
 A plugin for using UIM on qt-immodule.
-
 %endif
 
 %package   qt4immodule
@@ -183,6 +182,9 @@ Scm library for UIM.
 export QMAKE4=%{qt4bin}/qmake
 export DESTDIR=$RPM_BUILD_ROOT
 %configure2_5x \
+   --disable-static \
+   --without-anthy \
+   --with-anthy-utf8 \
    --with-m17nlib \
    --without-canna \
    --without-prime \
@@ -196,16 +198,17 @@ export DESTDIR=$RPM_BUILD_ROOT
    --enable-dict \
    --disable-warnings-into-error
 
-%make
+%make LIBTOOL=%_bindir/libtool
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%makeinstall_std
+%makeinstall_std LIBTOOL=%_bindir/libtool
 
 # remove unnecessary files
 rm -f %{buildroot}%{_libdir}/gtk-2.0/*/immodules/*.{a,la}
 rm -f %{buildroot}%{qt3plugins}/inputmethods/*.la
 rm -f %{buildroot}%{_bindir}/uim-m17nlib-relink-icons
+rm -f %{buildroot}%{_libdir}/uim/plugin/*.a
 
 # remove docs for sigscheme (they should be installed by %doc)
 rm -rf %{buildroot}%{_datadir}/doc/sigscheme
@@ -223,6 +226,10 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %postun gtk
 gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 
+%if %mdkversion < 200900
+%post -n %{libname} -p /sbin/ldconfig
+%postun -n %{libname} -p /sbin/ldconfig
+%endif
 
 
 %files -f %{name}.lang
@@ -255,14 +262,11 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %defattr(-,root,root)
 %doc COPYING
 %{_bindir}/uim-*-qt*
-%{_kde3_datadir}/apps/kicker/applets/uimapplet.desktop
-%{_kde3_libdir}/kde3/uim_panelapplet.*
 %{_libdir}/uim-candwin-qt
 
 %files qtimmodule
 %defattr(-,root,root)
 %doc COPYING
-%dir %{qt3plugins}/inputmethods/
 %{qt3plugins}/inputmethods/*.so
 %endif
 

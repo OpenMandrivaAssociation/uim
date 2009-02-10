@@ -52,6 +52,7 @@ Provides:        uim-anthy, uim-m17nlib, uim-prime, uim-skk
 BuildRequires:   gtk+2-devel >= 2.4.0
 BuildRequires:   libgnome2-devel gnomeui2-devel
 BuildRequires:   gnome-panel-devel
+BuildRequires:	 libglade2-devel
 BuildRequires:   m17n-lib-devel >= %{m17n_lib_version}
 BuildRequires:   m17n-db
 BuildRequires:   anthy-devel >= %{anthy_version}

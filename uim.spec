@@ -1,5 +1,5 @@
-%define version   1.5.5
-%define release   %mkrel 2.svn5782.1
+%define version   1.5.6
+%define release   %mkrel 1
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -38,7 +38,6 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source0:   http://uim.googlecode.com/files/%name-%version.tar.bz2
 Patch0:    uim-1.5.4-pkgconfig-qt3.patch
 Patch1:    uim-1.5.5-fix-str-fmt.patch
-Patch2:    uim-1.5.5-linkage.patch
 Requires:        %{libname} = %{version}
 Requires:        uim-gtk
 Requires:        anthy >= %{anthy_version}
@@ -176,12 +175,10 @@ Scm library for UIM.
 %setup -q
 %patch0 -p0
 %patch1 -p0
-%patch2 -p0
 
 %build
 ./autogen.sh
 export QMAKE4=%{qt4bin}/qmake
-export DESTDIR=$RPM_BUILD_ROOT
 %configure2_5x \
    --disable-static \
    --without-anthy \
@@ -199,17 +196,14 @@ export DESTDIR=$RPM_BUILD_ROOT
    --enable-dict \
    --disable-warnings-into-error
 
-%make LIBTOOL=%_bindir/libtool
+%make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%makeinstall_std LIBTOOL=%_bindir/libtool
+%makeinstall_std
 
 # remove unnecessary files
-rm -f %{buildroot}%{_libdir}/gtk-2.0/*/immodules/*.{a,la}
-rm -f %{buildroot}%{qt3plugins}/inputmethods/*.la
-rm -f %{buildroot}%{_bindir}/uim-m17nlib-relink-icons
-rm -f %{buildroot}%{_libdir}/uim/plugin/*.a
+find %{buildroot} -name *.la | xargs rm
 
 # remove docs for sigscheme (they should be installed by %doc)
 rm -rf %{buildroot}%{_datadir}/doc/sigscheme
@@ -242,9 +236,11 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %{_bindir}/uim-module-manager
 %{_bindir}/uim-sh
 %{_bindir}/uim-xim
+%{_bindir}/uim-m17nlib-relink-icons
 %{_datadir}/applications/*
 %{_datadir}/emacs/site-lisp/uim-el/*.el
 %{_mandir}/man1/*
+%dir %{_datadir}/uim
 %{_datadir}/uim/*.scm
 %{_datadir}/uim/helperdata/*
 %{_datadir}/uim/lib/*.scm
@@ -307,7 +303,4 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %doc COPYING
 %{_includedir}/*
 %{_libdir}/lib*.so
-%{_libdir}/lib*.a
-%{_libdir}/lib*.la
 %{_libdir}/pkgconfig/*.pc
-%{_libdir}/uim/plugin/libuim-*.la

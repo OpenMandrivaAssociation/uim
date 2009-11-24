@@ -38,6 +38,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source0:   http://uim.googlecode.com/files/%name-%version.tar.bz2
 Patch0:    uim-1.5.4-pkgconfig-qt3.patch
 Patch1:    uim-1.5.5-fix-str-fmt.patch
+Patch3:	   uim-1.5.7-fix-linkage.patch
 Requires:        %{libname} = %{version}
 Requires:        uim-gtk
 Requires:        anthy >= %{anthy_version}
@@ -175,6 +176,7 @@ Scm library for UIM.
 %setup -q
 %patch0 -p0
 %patch1 -p0
+%patch3 -p0
 
 %build
 ./autogen.sh

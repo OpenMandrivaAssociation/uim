@@ -1,10 +1,10 @@
-%define version   1.5.7
-%define release   %mkrel 1
+%define version   1.6.0
+%define release   %mkrel -c beta 1
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
 
-%define uim_major 6
+%define uim_major 7
 %define libname_orig lib%{name}
 %define libname %mklibname %{name} %uim_major
 %define develname %mklibname -d %{name}
@@ -20,9 +20,6 @@
 %define scm_major 0
 %define libscm %mklibname uim-scm %scm_major
 
-%define with_qt3 0
-%{?_with_qt3: %{expand: %%global with_qt3 1}}
-
 Name:      uim
 Summary:   Multilingual input method library 
 Version:   %{version}
@@ -35,10 +32,7 @@ Group:     System/Internationalization
 License:   BSD and LGPLv2+ and (BSD or LGPLv2)
 URL:       http://code.google.com/p/uim/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-Source0:   http://uim.googlecode.com/files/%name-%version.tar.bz2
-Patch0:    uim-1.5.4-pkgconfig-qt3.patch
-Patch1:    uim-1.5.5-fix-str-fmt.patch
-Patch3:	   uim-1.5.7-fix-linkage.patch
+Source0:   http://uim.googlecode.com/files/%name-%version-beta.tar.bz2
 Requires:        %{libname} = %{version}
 Requires:        uim-gtk
 Requires:        anthy >= %{anthy_version}
@@ -77,30 +71,6 @@ Provides:  uim-applet = %{version}
 %description gtk
 GNOME helper for uim. It contains some apps like toolbar, 
 system tray, applet, candidate window for Uim library.
-
-%if %{with_qt3}
-%package   qt
-Summary:   KDE helper for uim
-Group:     System/Internationalization
-Requires:  %{name} = %{version}
-Requires:  qt3 > 3.3.4-9mdk
-BuildRequires: qt3-devel
-Provides:  uim-applet = %{version}
-
-%description qt
-KDE helper for uim. It contains some apps like toolbar,
-system tray, applet, candidate window for Uim library.
-
-%package   qtimmodule
-Summary:   Plugin for using UIM on qt-immodule
-Group:     System/Internationalization
-Requires:  %{name} = %{version}
-Requires:  qt3 > 3.3.4-9mdk
-Obsoletes: quiminputcontextplugin
-
-%description qtimmodule
-A plugin for using UIM on qt-immodule.
-%endif
 
 %package   qt4immodule
 Summary:   A plugin for using UIM on qt4-immodule
@@ -173,10 +143,7 @@ Group:      System/Internationalization
 Scm library for UIM.
 
 %prep
-%setup -q
-%patch0 -p0
-%patch1 -p0
-%patch3 -p0
+%setup -qn %{name}-%{version}-beta
 
 %build
 ./autogen.sh
@@ -190,10 +157,6 @@ export QMAKE4=%{qt4bin}/qmake
    --without-prime \
    --without-scim \
    --without-eb \
-%if %{with_qt3}
-   --with-qt \
-   --with-qt-immodule \
-%endif
    --with-qt4-immodule \
    --enable-dict \
    --disable-warnings-into-error
@@ -235,6 +198,7 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %doc sigscheme/doc/*
 %{_bindir}/uim-el*-agent
 %{_bindir}/uim-fep*
+%{_bindir}/uim-help
 %{_bindir}/uim-module-manager
 %{_bindir}/uim-sh
 %{_bindir}/uim-xim
@@ -245,6 +209,7 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %dir %{_datadir}/uim
 %{_datadir}/uim/*.scm
 %{_datadir}/uim/helperdata/*
+%{_datadir}/uim/tables
 %{_datadir}/uim/lib/*.scm
 %{_datadir}/uim/pixmaps/*
 
@@ -253,21 +218,9 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %doc COPYING
 %{_bindir}/uim-*-gtk*
 %{_bindir}/uim-input-pad-ja
-%{_libdir}/uim-candwin-gtk
+%{_libexecdir}/uim-candwin-gtk
+%{_libexecdir}/uim-candwin-tbl-gtk
 %{_libdir}/gtk-2.0/*/immodules/*.so
-
-%if %{with_qt3}
-%files qt -f uim-chardict-qt.lang
-%defattr(-,root,root)
-%doc COPYING
-%{_bindir}/uim-*-qt*
-%{_libdir}/uim-candwin-qt
-
-%files qtimmodule
-%defattr(-,root,root)
-%doc COPYING
-%{qt3plugins}/inputmethods/*.so
-%endif
 
 %files qt4immodule
 %doc COPYING
@@ -275,7 +228,7 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 
 %files base
 %defattr(-,root,root)
-%{_libdir}/uim-helper-server
+%{_libexecdir}/uim-helper-server
 %{_libdir}/bonobo/servers/*.server
 %{_libexecdir}/uim-toolbar-applet
 %{_libdir}/uim/plugin/libuim-*.so

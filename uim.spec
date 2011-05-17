@@ -1,5 +1,5 @@
-%define version   1.6.1
-%define release   %mkrel 2
+%define version   1.7.0
+%define release   %mkrel 1
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -44,6 +44,7 @@ Conflicts:       gtk+2.0 < 2.4.4-2mdk
 Obsoletes:       uim-anthy, uim-m17nlib, uim-prime, uim-skk
 Provides:        uim-anthy, uim-m17nlib, uim-prime, uim-skk
 BuildRequires:   gtk+2-devel >= 2.4.0
+BuildRequires:   gtk+3-devel
 BuildRequires:   libgnome2-devel gnomeui2-devel
 BuildRequires:   gnome-panel-devel
 BuildRequires:	 libglade2-devel
@@ -70,6 +71,18 @@ Provides:  uim-applet = %{version}
 
 %description gtk
 GNOME helper for uim. It contains some apps like toolbar, 
+system tray, applet, candidate window for Uim library.
+
+%package   gtk3
+Summary:   GNOME3 helper for uim
+Group:     System/Internationalization
+Requires:  %{name} = %{version}
+Requires:  gtk3
+Provides:  uim-applet-gtk3
+Provides:  uim-applet = %{version}
+
+%description gtk3
+GNOME3 helper for uim. It contains some apps like toolbar,
 system tray, applet, candidate window for Uim library.
 
 %package   qt4immodule
@@ -178,19 +191,6 @@ rm -rf %{buildroot}%{_datadir}/doc/sigscheme
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-
-%post gtk
-gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
-
-%postun gtk
-gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
-
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
-
 %files -f %{name}.lang
 %defattr(-,root,root)
 %doc AUTHORS COPYING README
@@ -205,21 +205,32 @@ gtk-query-immodules-2.0 > %{_sysconfdir}/gtk-2.0/gtk.immodules.%_lib
 %{_datadir}/applications/*
 %{_datadir}/emacs/site-lisp/uim-el/*.el
 %{_mandir}/man1/*
-%dir %{_datadir}/uim
-%{_datadir}/uim/*.scm
-%{_datadir}/uim/helperdata/*
-%{_datadir}/uim/tables
-%{_datadir}/uim/lib/*.scm
-%{_datadir}/uim/pixmaps/*
+%{_datadir}/uim
 
 %files gtk
 %defattr(-,root,root)
 %doc COPYING
-%{_bindir}/uim-*-gtk*
 %{_bindir}/uim-input-pad-ja
+%{_bindir}/uim-dict-gtk
+%{_bindir}/uim-im-switcher-gtk
+%{_bindir}/uim-pref-gtk
+%{_bindir}/uim-toolbar-gtk
+%{_bindir}/uim-toolbar-gtk-systray
 %{_libexecdir}/uim-candwin-gtk
 %{_libexecdir}/uim-candwin-tbl-gtk
 %{_libdir}/gtk-2.0/*/immodules/*.so
+
+%files gtk3
+%defattr(-,root,root)
+%{_bindir}/uim-dict-gtk3
+%{_bindir}/uim-im-switcher-gtk3
+%{_bindir}/uim-input-pad-ja-gtk3
+%{_bindir}/uim-pref-gtk3
+%{_bindir}/uim-toolbar-gtk3
+%{_bindir}/uim-toolbar-gtk3-systray
+%{_libdir}/gtk-3.0/*/immodules/im-uim.so
+%{_libexecdir}/uim-candwin-gtk3
+%{_libexecdir}/uim-candwin-tbl-gtk3
 
 %files qt4immodule
 %doc COPYING

@@ -1,5 +1,5 @@
 %define version   1.7.0
-%define release   %mkrel 1
+%define release   %mkrel 2
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -77,7 +77,7 @@ system tray, applet, candidate window for Uim library.
 Summary:   GNOME3 helper for uim
 Group:     System/Internationalization
 Requires:  %{name} = %{version}
-Requires:  gtk3
+Requires:  gtk+3
 Provides:  uim-applet-gtk3
 Provides:  uim-applet = %{version}
 

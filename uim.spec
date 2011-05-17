@@ -65,7 +65,7 @@ to provide secure and useful input method for all languages.
 Summary:   GNOME helper for uim
 Group:     System/Internationalization
 Requires:  %{name} = %{version}
-Requires:  gtk2
+Requires:  gtk+2
 Provides:  uim-applet-gtk
 Provides:  uim-applet = %{version}
 

@@ -176,7 +176,7 @@ export QMAKE4=%{qt4bin}/qmake
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %makeinstall_std
 
 # remove unnecessary files
@@ -189,7 +189,7 @@ rm -rf %{buildroot}%{_datadir}/doc/sigscheme
 %find_lang uim-chardict-qt
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files -f %{name}.lang
 %defattr(-,root,root)

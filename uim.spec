@@ -45,7 +45,7 @@ Obsoletes:       uim-anthy, uim-m17nlib, uim-prime, uim-skk
 Provides:        uim-anthy, uim-m17nlib, uim-prime, uim-skk
 BuildRequires:   gtk+2-devel >= 2.4.0
 BuildRequires:   gtk+3-devel
-BuildRequires:   libgnome2-devel 
+BuildRequires:   pkgconfig(libgnome-2.0) 
 BuildRequires:   pkgconfig(libgnomeui-2.0)
 BuildRequires:   gnome-panel-devel
 BuildRequires:	 pkgconfig(libglade-2.0)

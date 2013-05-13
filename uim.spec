@@ -1,5 +1,5 @@
 %define version   1.7.0
-%define release   %mkrel 4
+%define release    5
 
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
@@ -31,7 +31,6 @@ Group:     System/Internationalization
 # pixmaps/*.{svg,png} is licensed under BSD or LGPLv2
 License:   BSD and LGPLv2+ and (BSD or LGPLv2)
 URL:       http://code.google.com/p/uim/
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source0:   http://uim.googlecode.com/files/%name-%version.tar.bz2
 Requires:        %{libname} = %{version}
 Requires:        uim-gtk

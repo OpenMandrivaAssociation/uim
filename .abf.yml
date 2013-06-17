@@ -1,2 +1,4 @@
+removed_sources:
+  uim-1.7.0.tar.bz2: b79ed80c2557e804e6d3d2771a213a29cd932a73
 sources:
-  "uim-1.7.0.tar.bz2": b79ed80c2557e804e6d3d2771a213a29cd932a73
+  uim-1.8.5.tar.bz2: 634046cf7b11e2e4aeec170521b0e0fdffa1e728

@@ -44,8 +44,7 @@ BuildRequires:	pkgconfig(QtGui)
 Requires:	anthy >= %{anthy_version}
 Requires:	m17n-lib >= %{m17n_lib_version}
 Requires:	skkdic
-Requires:	uim-gtk
-Requires(post,postun):	%{_bindir}/gtk-query-immodules-2.0
+Requires(post,postun):	gtk2-modules
 
 %description
 Uim is a multilingual input method library. Uim's project goal is 

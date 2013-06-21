@@ -139,10 +139,10 @@ Headers of %{name} for development.
 
 %prep
 %setup -q
-#libtoolize --force
-#aclocal -I m4
-#automake -a
-autoreconf -fi
+libtoolize --force
+aclocal -I m4
+automake -a
+autoconf
 
 %build
 export QMAKE4=%{qt4bin}/qmake

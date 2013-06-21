@@ -2,140 +2,112 @@
 %define m17n_lib_version   1.3.4
 
 %define uim_major 8
-%define libname_orig lib%{name}
-%define libname %mklibname %{name} %uim_major
-%define develname %mklibname -d %{name}
+%define libname %mklibname %{name} %{uim_major}
+%define devname %mklibname -d %{name}
 
 %define custom_major 2
-%define libcustom_orig libuim-custom
-%define libcustom %mklibname uim-custom %custom_major
+%define libcustom %mklibname uim-custom %{custom_major}
 
 %define gcroots_major 0
-%define libgcroots_orig libgcroots
-%define libgcroots %mklibname gcroots %gcroots_major
+%define libgcroots %mklibname gcroots %{gcroots_major}
 
 %define scm_major 0
-%define libscm %mklibname uim-scm %scm_major
+%define libscm %mklibname uim-scm %{scm_major}
 
-Name:      uim
-Summary:   Multilingual input method library 
-Version:   1.8.5
-Release:   1
-Group:     System/Internationalization
+Summary:	Multilingual input method library 
+Name:		uim
+Version:	1.8.5
+Release:	1
+Group:		System/Internationalization
 # uim itself is licensed under BSD
 # scm/py.scm, helper/eggtrayicon.[ch], qt/pref-kseparator.{cpp,h}
 #   and qt/chardict/chardict-kseparator.{cpp,h} is licensed under LGPLv2+
 # pixmaps/*.{svg,png} is licensed under BSD or LGPLv2
-License:   BSD and LGPLv2+ and (BSD or LGPLv2)
-URL:       http://code.google.com/p/uim/
-Source0:   http://uim.googlecode.com/files/%name-%version.tar.bz2
-Requires:        %{libname} = %{version}
-Requires:        uim-gtk
-Requires:        anthy >= %{anthy_version}
-Requires:        m17n-lib >= %{m17n_lib_version}
-Requires:        skkdic
-Requires(post):   %_bindir/gtk-query-immodules-2.0
-Requires(postun): %_bindir/gtk-query-immodules-2.0
-Conflicts:       gtk+2.0 < 2.4.4-2mdk
-Obsoletes:       uim-anthy, uim-m17nlib, uim-prime, uim-skk
-Provides:        uim-anthy, uim-m17nlib, uim-prime, uim-skk
-BuildRequires:   pkgconfig(gtk+-x11-2.0)
-BuildRequires:   pkgconfig(gtk+-x11-3.0)
-BuildRequires:   pkgconfig(libgnome-2.0) 
-BuildRequires:   pkgconfig(libgnomeui-2.0)
-BuildRequires:   pkgconfig(libpanelapplet-4.0)
-BuildRequires:	 pkgconfig(libglade-2.0)
-BuildRequires:   m17n-lib-devel >= %{m17n_lib_version}
-BuildRequires:   m17n-db
-BuildRequires:   anthy-devel >= %{anthy_version}
-BuildRequires:   intltool
-BuildRequires:   pkgconfig(ncurses)
-BuildRequires:   automake
-BuildRequires:   pkgconfig(QtCore) pkgconfig(QtGui)
-BuildRequires:	 ed
-BuildRequires:	 libtool
+License:	BSD and LGPLv2+ and (BSD or LGPLv2)
+Url:		http://code.google.com/p/uim/
+Source0:	http://uim.googlecode.com/files/%{name}-%{version}.tar.bz2
+BuildRequires:	ed
+BuildRequires:	intltool
+BuildRequires:	libtool
+BuildRequires:	m17n-db
+BuildRequires:	pkgconfig(anthy) >= %{anthy_version}
+BuildRequires:	pkgconfig(gtk+-x11-2.0)
+BuildRequires:	pkgconfig(gtk+-x11-3.0)
+BuildRequires:	pkgconfig(libgnome-2.0) 
+BuildRequires:	pkgconfig(libgnomeui-2.0)
+BuildRequires:	pkgconfig(libpanelapplet-4.0)
+BuildRequires:	pkgconfig(libglade-2.0)
+BuildRequires:	pkgconfig(m17n-core) >= %{m17n_lib_version}
+BuildRequires:	pkgconfig(ncurses)
+BuildRequires:	pkgconfig(QtCore)
+BuildRequires:	pkgconfig(QtGui)
+Requires:	anthy >= %{anthy_version}
+Requires:	m17n-lib >= %{m17n_lib_version}
+Requires:	skkdic
+Requires:	uim-gtk
+Requires(post,postun):	%{_bindir}/gtk-query-immodules-2.0
 
 %description
 Uim is a multilingual input method library. Uim's project goal is 
 to provide secure and useful input method for all languages.
 
 %package   gtk
-Summary:   GNOME helper for uim
-Group:     System/Internationalization
-Requires:  %{name} = %{version}
-Requires:  gtk+2
-Provides:  uim-applet-gtk
-Provides:  uim-applet = %{version}
+Summary:	GNOME helper for uim
+Group:		System/Internationalization
+Requires:	%{name} = %{version}-%{release}
+Requires:	gtk+2.0
 
 %description gtk
 GNOME helper for uim. It contains some apps like toolbar, 
 system tray, applet, candidate window for Uim library.
 
 %package   gtk3
-Summary:   GNOME3 helper for uim
-Group:     System/Internationalization
-Requires:  %{name} = %{version}
-Requires:  gtk+3
-Provides:  uim-applet-gtk3
-Provides:  uim-applet = %{version}
+Summary:	GNOME3 helper for uim
+Group:		System/Internationalization
+Requires:	%{name} = %{version}-%{release}
+Requires:	gtk+3.0
 
 %description gtk3
 GNOME3 helper for uim. It contains some apps like toolbar,
 system tray, applet, candidate window for Uim library.
 
 %package   qt4immodule
-Summary:   A plugin for using UIM on qt4-immodule
-Group:     System/Internationalization
-Requires:  %{name} = %{version}
-Requires:  qt4-common
+Summary:	A plugin for using UIM on qt4-immodule
+Group:		System/Internationalization
+Requires:	%{name} = %{version}-%{release}
+Requires:	qt4-common
 
 %description qt4immodule
 A plugin for using UIM on qt4-immodule.
 
 %package    base
-Summary:    Misc files needed by UIM library
-Group:      System/Internationalization
-Conflicts:  %{mklibname uim 1}
-Conflicts:  %{mklibname uim 5} < 1.4.0-1mdv
+Summary:	Misc files needed by UIM library
+Group:		System/Internationalization
 
 %description base
 Misc files needed by UIM library.
 
 %package -n %{libname}
-Summary:    UIM library
-Group:      System/Internationalization
-Provides:   %{libname_orig} = %{version}-%{release}
-Requires:   uim-base
-Conflicts:  %{mklibname uim 1}
+Summary:	UIM library
+Group:		System/Internationalization
+Suggests:	uim-base
+Conflicts:	%{mklibname uim 1}
 
 %description -n %{libname}
 UIM library.
 
-%package -n %{develname}
-Summary:    Headers of uim for development
-Group:      Development/C
-Requires:   %{libname} = %{version}
-Provides:   %{name}-devel = %{version}-%{release}
-Provides:   %{libname_orig}-devel = %{version}-%{release}
-Obsoletes:  %mklibname -d uim 5
-
-%description -n %{develname}
-Headers of %{name} for development.
-
 %package -n %{libcustom}
-Summary:    Custom library for UIM
-Group:      System/Internationalization
-Provides:   %{libcustom_orig} = %{version}-%{release}
-Conflicts:  %{mklibname uim 1}
+Summary:	Custom library for UIM
+Group:		System/Internationalization
+Conflicts:	%{mklibname uim 1}
 
 %description -n %{libcustom}
 Custom library for UIM.
 
 %package -n %{libgcroots}
-Summary:    Gcroots library for UIM
-Group:      System/Internationalization
-Provides:   %{libgcroots_orig} = %{version}-%{release}
-Conflicts:  %{mklibname uim 1}
+Summary:	Gcroots library for UIM
+Group:		System/Internationalization
+Conflicts:	%{mklibname uim 1}
 
 %description -n %{libgcroots}
 ohis library abstracts architecture-dependent part of garbage collector
@@ -147,51 +119,57 @@ small footprint, some application-specific optimizations, just learning or
 testing experimental ideas.
 
 %package -n %{libscm}
-Summary:    Scm library for UIM
-Group:      System/Internationalization
+Summary:	Scm library for UIM
+Group:		System/Internationalization
 
 %description -n %{libscm}
 Scm library for UIM.
 
+%package -n %{devname}
+Summary:	Headers of uim for development
+Group:		Development/C
+Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libcustom} = %{version}-%{release}
+Requires:	%{libgcroots} = %{version}-%{release}
+Requires:	%{libscm} = %{version}-%{release}
+Provides:	%{name}-devel = %{version}-%{release}
+
+%description -n %{devname}
+Headers of %{name} for development.
+
 %prep
-%setup -qn %{name}-%{version}
-libtoolize --force
-aclocal -I m4
-automake -a
-autoconf
+%setup -q
+#libtoolize --force
+#aclocal -I m4
+#automake -a
+autoreconf -fi
 
 %build
 export QMAKE4=%{qt4bin}/qmake
 %configure2_5x \
-   --disable-static \
-   --without-anthy \
-   --with-anthy-utf8 \
-   --with-m17nlib \
-   --without-canna \
-   --without-prime \
-   --without-scim \
-   --without-eb \
-   --with-qt4-immodule \
-   --enable-dict \
-   --disable-warnings-into-error
+	--disable-static \
+	--without-anthy \
+	--with-anthy-utf8 \
+	--with-m17nlib \
+	--without-canna \
+	--without-prime \
+	--without-scim \
+	--without-eb \
+	--with-qt4-immodule \
+	--enable-dict \
+	--disable-warnings-into-error
 
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
 %makeinstall_std
-
-# remove unnecessary files
-find %{buildroot} -name *.la | xargs rm
 
 # remove docs for sigscheme (they should be installed by %doc)
 rm -rf %{buildroot}%{_datadir}/doc/sigscheme
 
 %find_lang %{name}
-#%find_lang uim-chardict-qt
 
 %files -f %{name}.lang
-%defattr(-,root,root)
 %doc AUTHORS COPYING README
 %doc sigscheme/doc/*
 %{_bindir}/uim-el*-agent
@@ -204,12 +182,10 @@ rm -rf %{buildroot}%{_datadir}/doc/sigscheme
 %{_datadir}/applications/*
 %{_datadir}/emacs/site-lisp/uim-el/*.el
 %{_datadir}/dbus-1/services/org.gnome.panel.applet.UimAppletFactory.service
-%{_mandir}/man1/*
 %{_datadir}/uim
+%{_mandir}/man1/*
 
 %files gtk
-%defattr(-,root,root)
-%doc COPYING
 %{_bindir}/uim-input-pad-ja
 %{_bindir}/uim-dict-gtk
 %{_bindir}/uim-im-switcher-gtk
@@ -222,7 +198,6 @@ rm -rf %{buildroot}%{_datadir}/doc/sigscheme
 %{_libdir}/gtk-2.0/*/immodules/*.so
 
 %files gtk3
-%defattr(-,root,root)
 %{_bindir}/uim-dict-gtk3
 %{_bindir}/uim-im-switcher-gtk3
 %{_bindir}/uim-input-pad-ja-gtk3
@@ -235,40 +210,28 @@ rm -rf %{buildroot}%{_datadir}/doc/sigscheme
 %{_libexecdir}/uim-candwin-tbl-gtk3
 
 %files qt4immodule
-%doc COPYING
 %{qt4plugins}/inputmethods/*.so
 
 %files base
-%defattr(-,root,root)
 %{_libexecdir}/uim-helper-server
-#%{_libdir}/bonobo/servers/*.server
-%{_datadir}/gnome-panel/4.0/applets/UimApplet.panel-applet
 %{_libexecdir}/uim-toolbar-applet*
+%{_datadir}/gnome-panel/4.0/applets/UimApplet.panel-applet
 %{_libdir}/uim/plugin/libuim-*.so
 
 %files -n %{libname}
-%defattr(-,root,root)
-%doc COPYING
 %{_libdir}/libuim.so.%{uim_major}*
 
 %files -n %{libgcroots}
-%defattr(-,root,root)
-%doc COPYING
 %{_libdir}/libgcroots.so.%{gcroots_major}*
 
 %files -n %{libcustom}
-%defattr(-,root,root)
-%doc COPYING
 %{_libdir}/libuim-custom.so.%{custom_major}*
 
 %files -n %{libscm}
-%defattr(-,root,root)
-%doc COPYING
 %{_libdir}/libuim-scm.so.%{scm_major}*
 
-%files -n %{develname}
-%defattr(-,root,root)
-%doc COPYING
+%files -n %{devname}
 %{_includedir}/*
 %{_libdir}/lib*.so
 %{_libdir}/pkgconfig/*.pc
+

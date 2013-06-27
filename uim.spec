@@ -17,7 +17,7 @@
 Summary:	Multilingual input method library 
 Name:		uim
 Version:	1.8.5
-Release:	1
+Release:	2
 Group:		System/Internationalization
 # uim itself is licensed under BSD
 # scm/py.scm, helper/eggtrayicon.[ch], qt/pref-kseparator.{cpp,h}
@@ -90,7 +90,7 @@ Misc files needed by UIM library.
 Summary:	UIM library
 Group:		System/Internationalization
 Suggests:	uim-base
-Conflicts:	%{mklibname uim 1}
+Conflicts:	%{mklibname uim 1} < 1.8.5-2
 
 %description -n %{libname}
 UIM library.
@@ -98,7 +98,7 @@ UIM library.
 %package -n %{libcustom}
 Summary:	Custom library for UIM
 Group:		System/Internationalization
-Conflicts:	%{mklibname uim 1}
+Conflicts:	%{mklibname uim 1} < 1.8.5-2
 
 %description -n %{libcustom}
 Custom library for UIM.
@@ -106,7 +106,7 @@ Custom library for UIM.
 %package -n %{libgcroots}
 Summary:	Gcroots library for UIM
 Group:		System/Internationalization
-Conflicts:	%{mklibname uim 1}
+Conflicts:	%{mklibname uim 1} < 1.8.5-2
 
 %description -n %{libgcroots}
 ohis library abstracts architecture-dependent part of garbage collector

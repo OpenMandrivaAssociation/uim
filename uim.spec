@@ -17,7 +17,7 @@
 Summary:	Multilingual input method library 
 Name:		uim
 Version:	1.8.5
-Release:	5
+Release:	6
 Group:		System/Internationalization
 # uim itself is licensed under BSD
 # scm/py.scm, helper/eggtrayicon.[ch], qt/pref-kseparator.{cpp,h}

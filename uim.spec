@@ -17,7 +17,7 @@
 Summary:	Multilingual input method library 
 Name:		uim
 Version:	1.8.6
-Release:	4
+Release:	5
 Group:		System/Internationalization
 # uim itself is licensed under BSD
 # scm/py.scm, helper/eggtrayicon.[ch], qt/pref-kseparator.{cpp,h}
@@ -229,7 +229,7 @@ autoconf
 
 %build
 export QMAKE4=%{qt4bin}/qmake
-%configure2_5x \
+%configure \
 	--disable-static \
 	--without-anthy \
 	--with-anthy-utf8 \

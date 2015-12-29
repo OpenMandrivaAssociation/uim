@@ -34,10 +34,6 @@ BuildRequires:	pkgconfig(anthy) >= %{anthy_version}
 BuildRequires:	pkgconfig(gtk+-x11-2.0)
 BuildRequires:	pkgconfig(gtk+-x11-3.0)
 BuildRequires:	pkgconfig(libedit)
-BuildRequires:	pkgconfig(libglade-2.0)
-BuildRequires:	pkgconfig(libgnome-2.0)
-BuildRequires:	pkgconfig(libgnomeui-2.0)
-BuildRequires:	pkgconfig(libpanelapplet-4.0)
 BuildRequires:	pkgconfig(m17n-core) >= %{m17n_lib_version}
 BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	pkgconfig(QtCore)
@@ -66,30 +62,6 @@ to provide secure and useful input method for all languages.
 %{_datadir}/dbus-1/services/org.gnome.panel.applet.UimAppletFactory.service
 %{_datadir}/uim
 %{_mandir}/man1/*
-
-#----------------------------------------------------------------------------
-
-%package gtk
-Summary:	GNOME helper for uim
-Group:		System/Internationalization
-Requires:	%{name} = %{EVRD}
-Requires:	gtk+2.0
-
-%description gtk
-GNOME helper for uim. It contains some apps like toolbar, 
-system tray, applet, candidate window for Uim library.
-
-%files gtk
-%{_bindir}/uim-input-pad-ja
-%{_bindir}/uim-dict-gtk
-%{_bindir}/uim-im-switcher-gtk
-%{_bindir}/uim-pref-gtk
-%{_bindir}/uim-toolbar-gtk
-%{_bindir}/uim-toolbar-gtk-systray
-%{_libexecdir}/uim-candwin-horizontal-gtk
-%{_libexecdir}/uim-candwin-gtk
-%{_libexecdir}/uim-candwin-tbl-gtk
-%{_libdir}/gtk-2.0/*/immodules/*.so
 
 #----------------------------------------------------------------------------
 
@@ -240,7 +212,8 @@ export QMAKE4=%{qt4bin}/qmake
 	--without-eb \
 	--with-qt4-immodule \
 	--enable-dict \
-	--disable-warnings-into-error
+	--disable-warnings-into-error \
+	--disable-gnome-applet
 
 %make
 

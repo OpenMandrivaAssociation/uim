@@ -1,3 +1,6 @@
+%define _disable_lto 1
+%define _disable_rebuild_configure 1
+
 %define anthy_version      6620
 %define m17n_lib_version   1.3.4
 
@@ -59,7 +62,6 @@ to provide secure and useful input method for all languages.
 %{_bindir}/uim-m17nlib-relink-icons
 %{_datadir}/applications/*
 %{_datadir}/emacs/site-lisp/uim-el/*.el
-%{_datadir}/dbus-1/services/org.gnome.panel.applet.UimAppletFactory.service
 %{_datadir}/uim
 %{_mandir}/man1/*
 
@@ -112,8 +114,6 @@ Misc files needed by UIM library.
 
 %files base
 %{_libexecdir}/uim-helper-server
-%{_libexecdir}/uim-toolbar-applet*
-%{_datadir}/gnome-panel/4.0/applets/UimApplet.panel-applet
 %{_libdir}/uim/plugin/libuim-*.so
 
 #----------------------------------------------------------------------------
@@ -212,8 +212,10 @@ export QMAKE4=%{qt4bin}/qmake
 	--without-eb \
 	--with-qt4-immodule \
 	--enable-dict \
+	--enable-default-toolkit=gtk3 \
 	--disable-warnings-into-error \
-	--disable-gnome-applet
+	--disable-gnome-applet \
+	--without-gtk2
 
 %make
 

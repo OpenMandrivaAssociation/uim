@@ -27,7 +27,7 @@ Group:		System/Internationalization
 #   and qt/chardict/chardict-kseparator.{cpp,h} is licensed under LGPLv2+
 # pixmaps/*.{svg,png} is licensed under BSD or LGPLv2
 License:	BSD and LGPLv2+ and (BSD or LGPLv2)
-Url:		http://code.google.com/p/uim/
+Url:		https://code.google.com/p/uim/
 Source0:	http://uim.googlecode.com/files/%{name}-%{version}.tar.bz2
 BuildRequires:	ed
 BuildRequires:	intltool

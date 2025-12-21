@@ -29,6 +29,11 @@ Group:		System/Internationalization
 License:	BSD and LGPLv2+ and (BSD or LGPLv2)
 Url:		https://code.google.com/p/uim/
 Source0:	http://uim.googlecode.com/files/%{name}-%{version}.tar.bz2
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	ed
 BuildRequires:	intltool
 BuildRequires:	libtool
